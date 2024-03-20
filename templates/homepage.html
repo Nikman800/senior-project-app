@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     {%- if not is_production %}
@@ -12,6 +12,45 @@
   </head>
   <body>
     <h1>Hello, world!</h1>
+
+    <!-- Add the form and buttons here -->
+    <form action="/upload_image" method="post" enctype="multipart/form-data">
+      <input type="file" name="file" id="file" />
+      <button type="submit">Upload Image</button>
+    </form>
+    <button onclick="analyseImage()">Analyse Image</button>
+
     <script type="module" src="{{ asset('script.ts') }}"></script>
+    <script>
+      function analyseImage() {
+        // Create a new FormData object
+        var formData = new FormData();
+
+        // Get the file from the file input
+        var fileInput = document.getElementById("file");
+        var file = fileInput.files[0];
+
+        // Append the file to the FormData object
+        formData.append("image", file);
+
+        // Send a POST request to the /detect_faces endpoint
+        fetch("/detect_faces", {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then((data) => {
+            console.log(data);
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
+    </script>
   </body>
 </html>
