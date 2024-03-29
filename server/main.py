@@ -12,7 +12,6 @@ from flask_cors import CORS
 app = Flask(__name__)
 cors = CORS(app, origins='*')
 
-
 def result_to_dict(result):
     result_dict = {}
     for key, value in result.__dict__.items():

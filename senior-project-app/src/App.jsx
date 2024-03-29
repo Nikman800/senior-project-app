@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
+
 // import axios from "axios";
 
 // import React, { useState } from 'react';
@@ -21,7 +22,7 @@ function App() {
     const formData = new FormData();
     formData.append("image", image);
 
-    fetch("http://localhost:8080/detect_faces", {
+    fetch(`${import.meta.env.VITE_APP_SERVER_URL}/detect_faces`, {
       method: "POST",
       body: formData,
     })
