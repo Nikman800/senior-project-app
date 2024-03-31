@@ -1,7 +1,11 @@
 #adding an Aptfile to the root of your project
+update 
 libopencv-dev
 libgl1-mesa-glx
 libsm6
 libxrender1
 libfontconfig1
 libice6
+libgl1 
+ffmpeg
+libxext6

@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import cv2
 import numpy as np
 import os
@@ -7,6 +7,7 @@ from opencv.fr.persons.schemas import PersonBase
 from opencv.fr.search.schemas import SearchRequest, SearchMode
 from opencv.fr.api_error import APIError
 from flask_cors import CORS
+from dotenv import load_dotenv
 
 # Set up application.
 app = Flask(__name__)
@@ -28,6 +29,11 @@ def result_to_dict(result):
 # @app.route("/")
 # def homepage():
 #     return render_template("homepage.html")
+
+@app.route("/")
+def homepage():
+    print("Homepage accessed")
+    return "Hello, welcome to my homepage!"
 
 @app.route('/upload_image', methods=['POST'])
 def upload_image():
@@ -79,8 +85,10 @@ def detect_faces():
 
         output_images.append(output_path)
 
+    load_dotenv()
+
     BACKEND_URL = "https://us.opencv.fr"
-    DEVELOPER_KEY = "eUGJc-tYzJhNmUxZWEtYTM1ZS00N2JlLTk2MDQtY2I0MDRlNzFjYzRi"
+    DEVELOPER_KEY = os.getenv('DEVELOPER_KEY')
     sdk = FR(BACKEND_URL, DEVELOPER_KEY)
 
     results = []
@@ -101,4 +109,4 @@ def detect_faces():
     return jsonify(results)
 
 if __name__ == "__main__":
-    app.run(debug=True, port=8080)
+    app.run(debug=True, port=8000)
