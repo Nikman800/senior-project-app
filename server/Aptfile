@@ -1,6 +1,8 @@
 #adding an Aptfile to the root of your project
 update 
+python3-opencv
 libopencv-dev
+libgl1-mesa-dev
 libgl1-mesa-glx
 libsm6
 libxrender1
@@ -9,3 +11,7 @@ libice6
 libgl1 
 ffmpeg
 libxext6
+libgtk2.0-dev
+libglib2.0-dev
+libgl1-mesa-dev
+libglu1-mesa-dev
