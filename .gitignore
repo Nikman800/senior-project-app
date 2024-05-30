@@ -24,3 +24,9 @@ dist-ssr
 *.sw?
 
 .env
+
+#Server files
+/server/venv
+/server/.env
+/server/credentials.json
+/server/serviceAccountKey.json
