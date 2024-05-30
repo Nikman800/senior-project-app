@@ -10,7 +10,9 @@ import "./App.css";
 
 function App() {
   const [image, setImage] = useState(null);
-  const [results, setResults] = useState(null);
+  const [results, setResults] = useState([]);
+  const [hasSubmitted, setHasSubmitted] = useState(false); // New state variable
+  const [isLoading, setIsLoading] = useState(false); // New state variable
   const [linkedInUrls, setLinkedInUrls] = useState(""); // New state variable for LinkedIn URLs
   const [linkedInResults, setLinkedInResults] = useState([]); // Add this line
 
@@ -24,6 +26,9 @@ function App() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    setHasSubmitted(true); // Set hasSubmitted to true when the form is submitted
+    setIsLoading(true); // Set isLoading to true when the form is submitted
 
     const formData = new FormData();
     formData.append("image", image);
@@ -40,10 +45,13 @@ function App() {
       })
       .then((data) => {
         setResults(data); // Add this line
+        setIsLoading(false); // Set isLoading to false when the fetch request has completed
+        setHasSubmitted(true); // Set hasSubmitted to true when the fetch request has completed
         console.log(data); // Add this line
       })
       .catch((error) => {
         console.error("Error:", error);
+        setIsLoading(false); // Set isLoading to false if an error occurs
       });
   };
 
@@ -87,16 +95,20 @@ function App() {
       </form>
 
       <div className="results">
-        {results.length === 0 ? (
-          <p>No known faces were detected in the image.</p>
-        ) : (
-          results.map((result, index) => (
-            <div key={index}>
-              <p>Name: {result.name}</p>
-              <p>About: {result.about}</p>
-            </div>
-          ))
-        )}
+        {isLoading ? ( // Check if isLoading is true
+          <p>Loading...</p> // Display a loading message
+        ) : hasSubmitted ? ( // If isLoading is false, check if hasSubmitted is true
+          results.length === 0 ? (
+            <p>No known faces were detected in the image.</p>
+          ) : (
+            results.map((result, index) => (
+              <div key={index}>
+                <p>Name: {result.name}</p>
+                <p>About: {result.about}</p>
+              </div>
+            ))
+          )
+        ) : null} {/* If hasSubmitted is false, display nothing */}
       </div>
       <div className="linkedin-results">
         {linkedInResults.map((result, index) => (
